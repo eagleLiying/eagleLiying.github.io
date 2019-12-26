@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Eagle&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" type="image/ico" href="/css/images/favicon.ico"/> 
+  
+  <title>
+    
+      解决跨域的 10 种方法 | Eagle
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6e4a65843db95cb7ac9e31a22b2f4316";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Eagle</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>解决跨域的 10 种方法</h2>
+  <p class="post-date">2018-06-11</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content">
+      <h2 id="单向跨域"><a href="#单向跨域" class="headerlink" title="单向跨域"></a>单向跨域</h2><h3 id="一、-JSONP（JSON-with-Padding）"><a href="#一、-JSONP（JSON-with-Padding）" class="headerlink" title="一、 JSONP（JSON with Padding）"></a>一、 JSONP（JSON with Padding）</h3><p>html中的script标签可以加载并执行其他域的JavaScript，于是我们可以通过script标记来动态加载其他域的资源</p>
+<p>例子：<br>【域A】中【pageA】需要加载【域B】的数据，那么在【域B】的页面【pageB】中我以JavaScript的形式声明【pageA】需要的数据，然后在【pageA】中用script标签把【pageB】加载进来，那么【pageB】中的脚本就会得以执行。JSONP 在此基础上加入了【回调函数】，【pageB】加载完之后会执行【pageA】中定义的函数，所需要的数据会以【参数的形式】传递给该函数</p>
+<p>优点：易于实现， 在受信任的双方传递数据，JSONP是非常合适的选择。<br>缺点：如果第三方的脚本随意地执行，那么它就可以篡改页面内容，截获敏感数据。</p>
+<h3 id="二、flash-URLloader"><a href="#二、flash-URLloader" class="headerlink" title="二、flash URLloader"></a>二、flash URLloader</h3><p>flash有自己的一套安全策略，服务器可以通过crossdomain.xml文件来声明能被哪些域的SWF文件访问，SWF也可以通过API来确定自身能被哪些域的SWF加载。</p>
+<p>例子：<br>从域 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 请求域 <a href="http://www.b.com" target="_blank" rel="noopener">www.b.com</a> 上的数据，我们可以借助 flash 来发送 HTTP 请求。</p>
+<ol>
+<li>修改域 <a href="http://www.b.com" target="_blank" rel="noopener">www.b.com</a> 上的 crossdomain.xml (一般存放在根目录，如果没有需要手动创建) ，把 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 加入到白名单。</li>
+<li>通过 Flash URLLoader 发送 HTTP 请求。</li>
+<li>通过 Flash API 把响应结果传递给 JavaScript。</li>
+</ol>
+<p>缺点：不支持 IOS</p>
+<h3 id="三、Access-Control"><a href="#三、Access-Control" class="headerlink" title="三、Access Control"></a>三、Access Control</h3><p>Access Control 是比较超越的跨域方式，浏览器可以发送一个跨域的 HTTP 请求（Firefox, Google Chrome等通过 XMLHTTPRequest 实现，IE8 通过 XDomainRequest 实现），请求的响应必须包含一个 Access-Control-Allow-Origin 的 HTTP 响应头，该响应头声明了请求域的可访问权限。</p>
+<p>例子：<br><a href="http://www.a.com对www.b.com下的asset.php发送了一个跨域的HTTP请求，那么asset.php必须加入如下的响应头" target="_blank" rel="noopener">www.a.com对www.b.com下的asset.php发送了一个跨域的HTTP请求，那么asset.php必须加入如下的响应头</a></p>
+<p>缺点：目前只在很少的浏览器中得以支持，</p>
+<h3 id="四、window-name"><a href="#四、window-name" class="headerlink" title="四、window.name"></a>四、window.name</h3><p>window对象的name属性是一个很特别的属性，当该window的location变化，然后重新加载，它的name属性可以依然保持不变。</p>
+<p>例子：<br>在页面A中用iframe加载其他域的页面B，而页面B中用JavaScript把需要传递的数据赋值给window.name，iframe加载完成之后，页面A修改iframe的地址，将其变成同域的一个地址，然后就可以读出window.name的值了。</p>
+<p>优点：适合单项数据流，协议简单、安全，不会像JSONP那样不做限制地执行外部脚本。</p>
+<h3 id="五、server-proxy"><a href="#五、server-proxy" class="headerlink" title="五、server proxy"></a>五、server proxy</h3><p>在数据提供方没有提供对JSONP协议或者window.name协议的支持，也没有对其它域开放访问权限时，我们可以通过server proxy的方式来抓取数据。</p>
+<p>例子：<br>当 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 域下的页面需要请求 <a href="http://www.b.com" target="_blank" rel="noopener">www.b.com</a> 下的资源文件 asset.txt 时，直接发送一个指向 <a href="http://www.b.com/asset.txt" target="_blank" rel="noopener">www.b.com/asset.txt</a> 的 Ajax 请求肯定是会被浏览器阻止。这时，我们在 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 下配一个代理，然后把 Ajax 请求绑定到这个代理路径下，例如 <a href="http://www.a.com/proxy/" target="_blank" rel="noopener">www.a.com/proxy/</a> , 然后这个代理发送 HTTP 请求访问 <a href="http://www.b.com" target="_blank" rel="noopener">www.b.com</a> 下的 asset.txt ，跨域的 HTTP 请求是在服务器端进行的，客户端并没有产生跨域的 Ajax 请求。</p>
+<p>注意：这个跨域方式不需要和目标资源签订协议，带有侵略性，另外需要注意的是实践中应该对这个代理实施一定程度的保护，比如限制他人使用或者使用频率。</p>
+<h2 id="双向跨域"><a href="#双向跨域" class="headerlink" title="双向跨域"></a>双向跨域</h2><h3 id="一、document-domain"><a href="#一、document-domain" class="headerlink" title="一、document.domain"></a>一、document.domain</h3><p>通过修改document的domain属性，我们可以在域和子域或者不同的子域之间通信。</p>
+<p>例子：<br>同域策略认为域和子域隶属于不同的域，比如 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 和 sub.a.com 是不同的域，这时，我们无法在 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 下的页面中调用 sub.a.com 中定义的 JavaScript 方法。但是当我们把它们 document 的 domain 属性都修改为 a.com ，浏览器就会认为它们处于同一个域下，那么我们就可以互相调用对方的 method 来通信了。</p>
+<h3 id="二、FIM-–-Fragment-Identitier-Messaging"><a href="#二、FIM-–-Fragment-Identitier-Messaging" class="headerlink" title="二、FIM – Fragment Identitier Messaging"></a>二、FIM – Fragment Identitier Messaging</h3><p>不同的域之间，JavaScript 只能做很有限的访问和操作，其实我们利用这些有限的访问权限就可以达到跨域通信的目的了。<br>FIM (Fragment Identitier Messaging) 就是在这个大前提下被发明的。父窗口可以对 iframe 进行 URL 读写，iframe 也可以读写父窗口的 URL ，URL 有一部分被称为 frag，就是#号及其后面的字符，它一般用于浏览器锚点定位，Server 端并不关心这部分，应该说HTTP请求过程中不会携带 frag，所以这部分的修改不会产生 HTTP 请求，但是会产生浏览器历史记录。FIM 的原理就是改变 URL 的 frag 部分来进行双向通信。每个 window 通过改变其他 window 的 location 来发送消息，并通过监听自己的 URL 的变化来接收消息。这个方式的通信会造成一些不必要的浏览器历史记录，而且有些浏览器不支持 onhashchange 事件，需要轮询来获知 URL 的改变，最后，URL 在浏览器下有长度限制，这个制约了每次传送的数据量。</p>
+<h3 id="三、Flash-LocalConnection"><a href="#三、Flash-LocalConnection" class="headerlink" title="三、Flash LocalConnection"></a>三、Flash LocalConnection</h3><p>页面上的双向通信也可以通过 Flash 来解决，Flash API 中有 LocalConnection 这个类，该类允许两个 SWF 之间通过进程通信，这时 SWF 可以播放在独立的 Flash Player 或者 AIR 中，也可以嵌在 html 页面或者是 PDF 中。遵循这个通信原则，我们可以在不同域的 HTML 页面各自嵌套一个 SWF 来达到相互传递数据的目的了。SWF 通过 LocalConnection 交换数据是很快的，但是每次的数据量有 40kb 的大小限制。用这种方式来跨域通信过于复杂，而且需要了 2 个 SWF 文件，实用性不强。</p>
+<h3 id="四、window-postMessage"><a href="#四、window-postMessage" class="headerlink" title="四、window.postMessage"></a>四、window.postMessage</h3><p>window.postMessage 是 html5 定义的一个很新的方法，这个方法可以很方便地跨 window 通信。由于它是一个很新的方法，所以在很旧和比较旧的浏览器中都无法使用。</p>
+<h3 id="五、Cross-Frame"><a href="#五、Cross-Frame" class="headerlink" title="五、Cross Frame"></a>五、Cross Frame</h3><p>Cross Frame 是 FIM 的一个变种，它借助了一个空白的 iframe ，不会产生多余的浏览器历史记录，也不需要轮询 URL 的改变，在可用性和性能上都做了很大的改观。它的基本原理大致是这样的，假设在域 <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 上有页面 A.html 和一个空白代理页面 proxyA.html , 另一个域 <a href="http://www.b.com" target="_blank" rel="noopener">www.b.com</a> 上有个页面 B.html 和一个空白代理页面 proxyB.html，A.html 需要向 B.html 中发送消息时，页面会创建一个隐藏的 iframe, iframe 的 src 指向 proxyB.html 并把 message 作为 URL frag，由于 B.html 和 proxyB.html 是同域，所以在 iframe 加载完成之后，B.html 可以获得 iframe 的 URL，然后解析出 message，并移除该 iframe。当 B.html 需要向 A.html 发送消息时，原理一样。Cross Frame 是很好的双向通信方式，而且安全高效，但是它在 Opera 中无法使用，不过在 Opera 下面我们可以使用更简单的 window.postMessage 来代替。</p>
+<p>不同的跨域请求可以使用不同的方式解决</p>
+<p>原文链接：<a href="http://www.cnblogs.com/hustskyking/articles/ten-methods-cross-domain.html" target="_blank" rel="noopener">http://www.cnblogs.com/hustskyking/articles/ten-methods-cross-domain.html</a></p>
+
+    </section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#跨域" >
+    <span class="tag-code">跨域</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/06/11/什么是跨域？/">
+        <span class="nav-arrow">← </span>
+        
+          什么是跨域？
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2018/06/17/package-json文件/">
+        
+          package.json 文件
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <div>
+          
+            <div class="livere">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDAwNy8xNjUzNA==">
+            <script type="text/javascript">
+           (function(d, s) {
+               var j, e = d.getElementsByTagName(s)[0];
+    
+               if (typeof LivereTower === 'function') { return; }
+    
+               j = d.createElement(s);
+               j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+               j.async = true;
+    
+               e.parentNode.insertBefore(j, e);
+           })(document, 'script');
+            </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+    </div>
+            
+      </div>
+    
+
+   
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#单向跨域"><span class="toc-nav-text">单向跨域</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一、-JSONP（JSON-with-Padding）"><span class="toc-nav-text">一、 JSONP（JSON with Padding）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二、flash-URLloader"><span class="toc-nav-text">二、flash URLloader</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三、Access-Control"><span class="toc-nav-text">三、Access Control</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四、window-name"><span class="toc-nav-text">四、window.name</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#五、server-proxy"><span class="toc-nav-text">五、server proxy</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#双向跨域"><span class="toc-nav-text">双向跨域</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一、document-domain"><span class="toc-nav-text">一、document.domain</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二、FIM-–-Fragment-Identitier-Messaging"><span class="toc-nav-text">二、FIM – Fragment Identitier Messaging</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三、Flash-LocalConnection"><span class="toc-nav-text">三、Flash LocalConnection</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四、window-postMessage"><span class="toc-nav-text">四、window.postMessage</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#五、Cross-Frame"><span class="toc-nav-text">五、Cross Frame</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/06/11/解决跨域的-10-种方法/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "解决跨域的 10 种方法",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

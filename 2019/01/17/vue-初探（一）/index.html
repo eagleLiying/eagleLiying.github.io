@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Eagle&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" type="image/ico" href="/css/images/favicon.ico"/> 
+  
+  <title>
+    
+      vue 初探（一）——— 安装篇 | Eagle
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6e4a65843db95cb7ac9e31a22b2f4316";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Eagle</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>vue 初探（一）——— 安装篇</h2>
+  <p class="post-date">2019-01-17</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content">
+      <p>一直在使用 react ，但是对 <a href="https://cn.vuejs.org/v2/guide/installation.html#Vue-Devtools" target="_blank" rel="noopener">vue</a> 一直有一定的兴趣，所以记录一下自己学习 vue 的一些过程。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>对 Vue 还不是很理解，所以先安装一下吧：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 最新稳定版</span><br><span class="line">$ npm install vue</span><br></pre></td></tr></table></figure>
+<p>然后我看到官网上提供了 vue 的一个脚手架 <a href="https://cli.vuejs.org/zh/guide/creating-a-project.html" target="_blank" rel="noopener">vue-cli</a><br>安装 vue-cli</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g @vue/cli</span><br><span class="line"># OR</span><br><span class="line">$ yarn global add @vue/cli</span><br><span class="line"></span><br><span class="line"><span class="comment">// 安装完成之后可以通过一下指令查看是否安装成功</span></span><br><span class="line">$ vue --version</span><br></pre></td></tr></table></figure>
+<h2 id="创建一个新项目"><a href="#创建一个新项目" class="headerlink" title="创建一个新项目"></a>创建一个新项目</h2><p>我的思路是先对 vue 有一个大概的了解之后再去看详细的细节，所以我选择先使用 vue-cli 脚手架搭建一个小项目，便于自己了解 vue。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vue create api-vue</span><br></pre></td></tr></table></figure>
+<p>中间会有很多安装项目，我就先全部使用默认的添加项了。但是这块应该在 windows 和 mac 上会有所差别，可能在 windows 上有问题，具体提示查看 <a href="https://cli.vuejs.org/zh/guide/creating-a-project.html" target="_blank" rel="noopener">vue-cli 创建项目</a></p>
+<p>比较让我惊喜的是 vue-cli 提供了一个图形界面用于管理项目(虽然目前不知道这个东西怎么用):</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vue ui</span><br></pre></td></tr></table></figure>
+<p>查看 package.json 文件发现有对应的指令：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn serve  <span class="comment">// 启动项目</span></span><br></pre></td></tr></table></figure>
+<p>然后打开 <a href="http://129.0.0.1:8080" target="_blank" rel="noopener">http://129.0.0.1:8080</a> 就可以看到初始化的项目了。</p>
+<h2 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h2><p>安装官方提供的 <code>vue-router</code>, 具体怎么使用可以查看 <a href="https://router.vuejs.org/zh/installation.html" target="_blank" rel="noopener">vue-router 官方文档</a><br><br><br>我就简单记录一下我在使用过程中遇到的问题和解决步骤,<br><br></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install vue-router</span><br></pre></td></tr></table></figure>
+<p>简单说一下 vue-router 的功能：（官网上粘出来的）</p>
+<ol>
+<li>嵌套的路由/视图表</li>
+<li>模块化的、基于组件的路由配置</li>
+<li>路由参数、查询、通配符</li>
+<li>基于 Vue.js 过渡系统的视图过渡效果</li>
+<li>细粒度的导航控制</li>
+<li>带有自动激活的 CSS class 的链接</li>
+<li>HTML5 历史模式或 hash 模式，在 IE9 中自动降级</li>
+<li>自定义的滚动条行为</li>
+</ol>
+<p>我按照官网上配置出来之后的结果就是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.html</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span> /&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span> /&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width,initial-scale=1.0"</span> /&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"icon"</span> href=<span class="string">"&lt;%= BASE_URL %&gt;favicon.ico"</span> /&gt;</span><br><span class="line">    &lt;title&gt;api-vue&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;noscript&gt;</span><br><span class="line">      &lt;strong&gt;We<span class="string">'re sorry but api-vue doesn'</span>t work properly without JavaScript enabled. Please enable it to <span class="keyword">continue</span>.&lt;<span class="regexp">/strong&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>noscript&gt;</span><br><span class="line">    &lt;div id=<span class="string">"app"</span>&gt;&lt;/div&gt;</span><br><span class="line">    &lt;!-- built files will be auto injected --&gt;</span><br><span class="line">  &lt;<span class="regexp">/body&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>html&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> VueRouter <span class="keyword">from</span> <span class="string">'vue-router'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">'&lt;div&gt;foo&lt;/div&gt;'</span> &#125;</span><br><span class="line"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">'&lt;div&gt;bar&lt;/div&gt;'</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'/foo'</span>, <span class="attr">component</span>: Foo &#125;,</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'/bar'</span>, <span class="attr">component</span>: Bar &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  router</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h4><p><b>1. 运行结果会报错：</b></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are using the runtime-only build <span class="keyword">of</span> Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.</span><br></pre></td></tr></table></figure>
+<p><b>问题产生原因：</b><br><br>通过 <code>import Vue from &#39;vue&#39;</code> 导入的是 <code>vue.common.js</code>, 而 vue-router 内部导入使用的是 <code>vue.js</code>，在 node_modules/vue/package.json 中的 main 字段是：<code>&quot;main&quot;: &quot;dist/vue.runtime.common.js&quot;,</code>，瞬间恍然大悟，他默认导出的是 <code>&quot;dist/vue.runtime.common.js&quot;</code> 不是 <code>vue.js</code>。<br><br><b>解决方案：</b><br><br>我把项目中的 <code>import Vue from &#39;vue&#39;</code> 改为：<code>import Vue from &#39;vue/dist/vue&#39;</code>, 特别开心的是不报错了，但是就是没有出来内容，页面是空白一片。</p>
+<p><b>2. 页面空白</b><br><br>我纠结了半天想着，这样路由是定义好了，但是具体每个页面对应的每个模块要渲染的位置我并没有指定，所以我觉的页面空白一片是正常现象，所以我就看是看 <code>router-view</code> 的用法，查看了 <a href="https://github.com/vuejs/vue-router/tree/dev/examples/basic" target="_blank" rel="noopener">vue-router GitHub 的 base 例子</a>，<br><br><br><b>解决方案：</b><br><br>于是我给我的代码添加了 <code>Vue.use(VueRouter); 和 new Vue({..., template: ...})</code> 具体代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">"vue/dist/vue"</span>;</span><br><span class="line"><span class="keyword">import</span> VueRouter <span class="keyword">from</span> <span class="string">"vue-router"</span>;</span><br><span class="line">Vue.use(VueRouter);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Home = &#123; <span class="attr">template</span>: <span class="string">"&lt;div&gt;我是 Home 页&lt;/div&gt;"</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">"&lt;div&gt;我是 foo 页&lt;/div&gt;"</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">"&lt;div&gt;我是 bar 页&lt;/div&gt;"</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">"/"</span>, <span class="attr">component</span>: Home &#125;,</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">"/foo"</span>, <span class="attr">component</span>: Foo &#125;,</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">"/bar"</span>, <span class="attr">component</span>: Bar &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">  routes</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  router,</span><br><span class="line">  template: <span class="string">`</span></span><br><span class="line"><span class="string">  &lt;div id="app"&gt;</span></span><br><span class="line"><span class="string">    &lt;h1&gt;Hello Vue-router &lt;/h1&gt;</span></span><br><span class="line"><span class="string">    &lt;ul&gt;</span></span><br><span class="line"><span class="string">      &lt;li&gt;&lt;router-link to="/"&gt;/&lt;/router-link&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">      &lt;li&gt;&lt;router-link to="/foo"&gt;/foo&lt;/router-link&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">      &lt;li&gt;&lt;router-link to="/bar"&gt;/bar&lt;/router-link&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">    &lt;/ul&gt;</span></span><br><span class="line"><span class="string">    router-view content:</span></span><br><span class="line"><span class="string">    &lt;router-view class="view"&gt;&lt;/router-view&gt;</span></span><br><span class="line"><span class="string">  &lt;/div&gt;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line">&#125;).$mount(<span class="string">"#app"</span>);</span><br></pre></td></tr></table></figure>
+<p>再次运行，开心，页面终于出来了，而且路由页正常的运行。。。。😁 😁 😁 😁 😁 😁</p>
+<blockquote>
+<p>以上遇到的问中有提到 vue.common.js 和 vue.js，他俩之间的区别是：<br>Vue 最后会打包三个文件：runtime only 文件 vue.common.js（运行时），一个是 compiler only 的文件 compiler.js（编译器），一个是 runtime + compiler 的 vue.js（完整版），他们就是<a href="https://cn.vuejs.org/v2/guide/installation.html#%E6%9C%AF%E8%AF%AD" target="_blank" rel="noopener">官网术语</a>所说的运行时、编译器和完整版<br>我们如果要用到 template 就要用到 compiler.js，所以我们引入 vue.js 是最好的。</p>
+</blockquote>
+
+    </section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#js" >
+    <span class="tag-code">js</span>
+  </a>
+
+  <a href="/tags#vue" >
+    <span class="tag-code">vue</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/01/09/Array-遍历的方法总结/">
+        <span class="nav-arrow">← </span>
+        
+          Array 遍历的方法总结
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2019/01/21/Vue-初探（二）-生命周期篇/">
+        
+          Vue 初探（二）——— 生命周期篇
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <div>
+          
+            <div class="livere">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDAwNy8xNjUzNA==">
+            <script type="text/javascript">
+           (function(d, s) {
+               var j, e = d.getElementsByTagName(s)[0];
+    
+               if (typeof LivereTower === 'function') { return; }
+    
+               j = d.createElement(s);
+               j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+               j.async = true;
+    
+               e.parentNode.insertBefore(j, e);
+           })(document, 'script');
+            </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+    </div>
+            
+      </div>
+    
+
+   
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#安装"><span class="toc-nav-text">安装</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#创建一个新项目"><span class="toc-nav-text">创建一个新项目</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#添加路由"><span class="toc-nav-text">添加路由</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#问题："><span class="toc-nav-text">问题：</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/01/17/vue-初探（一）/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "vue 初探（一）——— 安装篇",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

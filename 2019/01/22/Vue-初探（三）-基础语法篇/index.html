@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Eagle&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" type="image/ico" href="/css/images/favicon.ico"/> 
+  
+  <title>
+    
+      Vue 初探（三）——— 基础语法篇 | Eagle
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6e4a65843db95cb7ac9e31a22b2f4316";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Eagle</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Vue 初探（三）——— 基础语法篇</h2>
+  <p class="post-date">2019-01-22</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content">
+      <h2 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h2><ol>
+<li>wath: 当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的</li>
+<li>computed(计算属性): 是基于它们的依赖进行缓存的， 用于进行简单的计算，get 居多，set 居少</li>
+<li>methods: 方法</li>
+</ol>
+<h2 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h2><ol>
+<li>v-bind 简写 : 绑定元素属性</li>
+<li>v-on 简写 @ 绑定事件</li>
+</ol>
+<h2 id="class-and-style"><a href="#class-and-style" class="headerlink" title="class and style"></a>class and style</h2><ol>
+<li><p>class 和 v-bind:class 不冲突，可以些简单的表达式或者计算属性</p>
+</li>
+<li><p>v-bind:style   可以是一个对象和变量，会自动添加前缀，也可以添加多重值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :style=&quot;&#123; display: [&apos;-webkit-box&apos;, &apos;-ms-flexbox&apos;, &apos;flex&apos;] &#125;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h2><table>
+<thead>
+<tr>
+<th>-</th>
+<th>缺点</th>
+<th>适用场景</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v-if</td>
+<td>是更高的切换开销</td>
+<td>在运行时条件很少改变的情况下使用</td>
+<td>v-else  v-else-if 必须与 v-if 成对出现，可以通过制定key 来控制元素是否被复用，如果不指定，默认复用，key 一致，</td>
+</tr>
+<tr>
+<td>v-show</td>
+<td>有更高的初始渲染开销，</td>
+<td>在需要非常频繁地切换时使用</td>
+<td>元素肯定会被渲染，只是显示不显示的问题</td>
+</tr>
+</tbody>
+</table>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><h4 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h4><p>适用 <code>v-for</code> 配合 <code>(item, index) in items</code>，item 指代循环列表中的某一项,index 指代循环的索引，也可以使用 <code>of</code> 代替 <code>in</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// html  v-for... in...</span></span><br><span class="line">&lt;ul id=<span class="string">"example-2"</span>&gt;</span><br><span class="line">  &lt;li v-<span class="keyword">for</span>=<span class="string">"(item, index) in items"</span>&gt;</span><br><span class="line">    &#123;&#123; parentMessage &#125;&#125; - &#123;&#123; index &#125;&#125; - &#123;&#123; item.message &#125;&#125;</span><br><span class="line">  &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">&lt;/u</span>l&gt;</span><br><span class="line"><span class="comment">// html  v-for...of...</span></span><br><span class="line">&lt;ul id=<span class="string">"example-2"</span>&gt;</span><br><span class="line">  &lt;li v-<span class="keyword">for</span>=<span class="string">"item of items"</span>&gt;</span><br><span class="line">    &#123;&#123; parentMessage &#125;&#125; - &#123;&#123; index &#125;&#125; - &#123;&#123; item.message &#125;&#125;</span><br><span class="line">  &lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">&lt;/u</span>l&gt;</span><br><span class="line"><span class="comment">// js</span></span><br><span class="line"><span class="keyword">var</span> example1 = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#example-1'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    items: [</span><br><span class="line">      &#123; <span class="attr">message</span>: <span class="string">'Foo'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">message</span>: <span class="string">'Bar'</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h4 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h4><p><code>v-for</code> 也可以用于遍历对象，配合 <code>(value, key) in object</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// html</span></span><br><span class="line">&lt;div v-<span class="keyword">for</span>=<span class="string">"(value, key) in object"</span>&gt;</span><br><span class="line">  &#123;&#123; key &#125;&#125;: &#123;&#123; value &#125;&#125;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ js</span></span><br><span class="line"><span class="regexp">new Vue(&#123;</span></span><br><span class="line"><span class="regexp">  el: '#v-for-object',</span></span><br><span class="line"><span class="regexp">  data: &#123;</span></span><br><span class="line"><span class="regexp">    object: &#123;</span></span><br><span class="line"><span class="regexp">      firstName: 'John',</span></span><br><span class="line"><span class="regexp">      lastName: 'Doe',</span></span><br><span class="line"><span class="regexp">      age: 30</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可能在不同的 JavaScript 引擎下渲染不一致</p>
+</blockquote>
+<blockquote>
+<p>注意：<code>v-for</code> 优先级高于 <code>v-if</code></p>
+</blockquote>
+<h2 id="表单的绑定"><a href="#表单的绑定" class="headerlink" title="表单的绑定"></a>表单的绑定</h2><p>使用 <code>v-model</code> 在表单 <code>&lt;input /&gt;</code>、<code>&lt;textarea&gt;</code>、<code>&lt;select&gt;</code>、<code>checkbox</code>、<code>radio</code> 会忽略掉所有的value、checked、selected 来实现双向绑定。初始值可以在 data 中去指定。<br>例如：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单行输入框</span></span><br><span class="line">&lt;input v-model=<span class="string">"message"</span> placeholder=<span class="string">"edit me"</span>&gt;</span><br><span class="line">&lt;p&gt;Message is: &#123;&#123; message &#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 多行输入框</span></span><br><span class="line"><span class="regexp">&lt;span&gt;Multiline message is:&lt;/</span>span&gt;</span><br><span class="line">&lt;p style=<span class="string">"white-space: pre-line;"</span>&gt;&#123;&#123; message &#125;&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">&lt;br&gt;</span></span><br><span class="line"><span class="regexp">&lt;textarea v-model="message" placeholder="add multiple lines"&gt;&lt;/</span>textarea&gt;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//  单个复选框</span></span><br><span class="line">&lt;input type=<span class="string">"checkbox"</span> id=<span class="string">"checkbox"</span> v-model=<span class="string">"checked"</span>&gt;</span><br><span class="line">&lt;label <span class="keyword">for</span>=<span class="string">"checkbox"</span>&gt;&#123;&#123; checked &#125;&#125;&lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/  多个复选框</span></span><br><span class="line"><span class="regexp">&lt;div id='example-3'&gt;</span></span><br><span class="line"><span class="regexp">  &lt;input type="checkbox" id="jack" value="Jack" v-model="checkedNames"&gt;</span></span><br><span class="line"><span class="regexp">  &lt;label for="jack"&gt;Jack&lt;/</span>label&gt;</span><br><span class="line">  &lt;input type=<span class="string">"checkbox"</span> id=<span class="string">"john"</span> value=<span class="string">"John"</span> v-model=<span class="string">"checkedNames"</span>&gt;</span><br><span class="line">  &lt;label <span class="keyword">for</span>=<span class="string">"john"</span>&gt;John&lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">  &lt;input type="checkbox" id="mike" value="Mike" v-model="checkedNames"&gt;</span></span><br><span class="line"><span class="regexp">  &lt;label for="mike"&gt;Mike&lt;/</span>label&gt;</span><br><span class="line">  &lt;br&gt;</span><br><span class="line">  &lt;span&gt;Checked names: &#123;&#123; checkedNames &#125;&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 单选</span></span><br><span class="line">&lt;div id=<span class="string">"example-4"</span>&gt;</span><br><span class="line">  &lt;input type=<span class="string">"radio"</span> id=<span class="string">"one"</span> value=<span class="string">"One"</span> v-model=<span class="string">"picked"</span>&gt;</span><br><span class="line">  &lt;label <span class="keyword">for</span>=<span class="string">"one"</span>&gt;One&lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">  &lt;br&gt;</span></span><br><span class="line"><span class="regexp">  &lt;input type="radio" id="two" value="Two" v-model="picked"&gt;</span></span><br><span class="line"><span class="regexp">  &lt;label for="two"&gt;Two&lt;/</span>label&gt;</span><br><span class="line">  &lt;br&gt;</span><br><span class="line">  &lt;span&gt;Picked: &#123;&#123; picked &#125;&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 选择框</span></span><br><span class="line">&lt;div id=<span class="string">"example-5"</span>&gt;</span><br><span class="line">  &lt;select v-model=<span class="string">"selected"</span>&gt;</span><br><span class="line">    &lt;option disabled value=<span class="string">""</span>&gt;请选择&lt;<span class="regexp">/option&gt;</span></span><br><span class="line"><span class="regexp">    &lt;option&gt;A&lt;/</span>option&gt;</span><br><span class="line">    &lt;option&gt;B&lt;<span class="regexp">/option&gt;</span></span><br><span class="line"><span class="regexp">    &lt;option&gt;C&lt;/</span>option&gt;</span><br><span class="line">  &lt;<span class="regexp">/select&gt;</span></span><br><span class="line"><span class="regexp">  &lt;span&gt;Selected: &#123;&#123; selected &#125;&#125;&lt;/</span>span&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>单个复选框可以指定 <code>true-value</code> 和 <code>false-value</code> 去控制 value 输入的特性<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;input</span><br><span class="line">  type=<span class="string">"checkbox"</span></span><br><span class="line">  v-model=<span class="string">"toggle"</span></span><br><span class="line">  <span class="literal">true</span>-value=<span class="string">"yes"</span></span><br><span class="line">  <span class="literal">false</span>-value=<span class="string">"no"</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
+<p>修饰符：</p>
+<ol>
+<li><code>.lazy</code>  在“change”时而非“input”时更新 </li>
+<li><code>.number</code> 返回数字，如果不能被 <code>parseFloat()</code> 识别，就自动返回原始值</li>
+<li><code>.trim</code> 自动过滤到收尾的空白字符</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input v-model.lazy=<span class="string">"msg"</span> &gt;</span><br><span class="line">&lt;input v-model.number=<span class="string">"age"</span> type=<span class="string">"number"</span>&gt;</span><br><span class="line">&lt;input v-model.trim=<span class="string">"msg"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+    </section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#js" >
+    <span class="tag-code">js</span>
+  </a>
+
+  <a href="/tags#vue" >
+    <span class="tag-code">vue</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2019/01/21/Vue-初探（二）-生命周期篇/">
+        <span class="nav-arrow">← </span>
+        
+          Vue 初探（二）——— 生命周期篇
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2019/01/22/Vue-初探（四）-组件篇/">
+        
+          Vue 初探（四）——— 组件篇
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <div>
+          
+            <div class="livere">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDAwNy8xNjUzNA==">
+            <script type="text/javascript">
+           (function(d, s) {
+               var j, e = d.getElementsByTagName(s)[0];
+    
+               if (typeof LivereTower === 'function') { return; }
+    
+               j = d.createElement(s);
+               j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+               j.async = true;
+    
+               e.parentNode.insertBefore(j, e);
+           })(document, 'script');
+            </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+    </div>
+            
+      </div>
+    
+
+   
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#计算属性"><span class="toc-nav-text">计算属性</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#绑定"><span class="toc-nav-text">绑定</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class-and-style"><span class="toc-nav-text">class and style</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#条件判断"><span class="toc-nav-text">条件判断</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#遍历"><span class="toc-nav-text">遍历</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Array"><span class="toc-nav-text">Array</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Object"><span class="toc-nav-text">Object</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#表单的绑定"><span class="toc-nav-text">表单的绑定</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/01/22/Vue-初探（三）-基础语法篇/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Vue 初探（三）——— 基础语法篇",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

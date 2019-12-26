@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Eagle&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" type="image/ico" href="/css/images/favicon.ico"/> 
+  
+  <title>
+    
+      webpack 学习（一） | Eagle
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6e4a65843db95cb7ac9e31a22b2f4316";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Eagle</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>webpack 学习（一）</h2>
+  <p class="post-date">2018-09-15</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content">
+      <h2 id="webpack-是做什么的"><a href="#webpack-是做什么的" class="headerlink" title="webpack 是做什么的"></a>webpack 是做什么的</h2><ol>
+<li>围绕 webpack 的工具体系能够帮助我们系统化的解决前端资源问题</li>
+<li>涵盖项目开发（单页应用或多页应用）、组件开发、SDK 开发等不同需求</li>
+<li>配置从简到繁，需要结合项目需求和工具配置构建出符合项目的工作流。不仅仅是工具，更需要结合工程化的思想。</li>
+</ol>
+<p>官网地址: <a href="https://webpack.docschina.org/" target="_blank" rel="noopener">中文地址</a>   <a href="https://webpack.js.org/" target="_blank" rel="noopener">英文地址</a></p>
+<blockquote>
+<p>主要需要注意的是所看 webpack 的版本，因为每个版本有很多不一样的地方</p>
+</blockquote>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><h4 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h4><p>自动构建，读取与合并参数，加载 plugin，实例化 complier plugin 机制，在这个环节可以通过配置 plugin 对 webpack 进行自定义功能扩展<br>（简言之：使用 plugin 加载各种插件）</p>
+<h4 id="2-编译"><a href="#2-编译" class="headerlink" title="2. 编译"></a>2. 编译</h4><p>从 entry 出发，针对每一个 module 调用 loader 翻译文件内容，并找到 module 的依赖进行编译处理。<br>（简言之：使用 loader 配置加载编译项目内容）</p>
+<h4 id="3-输出"><a href="#3-输出" class="headerlink" title="3. 输出"></a>3. 输出</h4><p>将编译后的 module 组合成 chunk , 将 chunk 转换成文件，输出到文件系统。<br>（简言之：将编译后的文件输出）</p>
+<p>注释：chunk 中文意思为 块</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p>配置 webpack 首先需要了解主要有哪些核心的配置：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">    mode: <span class="string">""</span>,           <span class="comment">// string  构建模式, eg: production(default)、development、none</span></span><br><span class="line">    context: <span class="string">""</span>,        <span class="comment">// 上下文</span></span><br><span class="line">    entry: <span class="string">""</span>,          <span class="comment">// 入口，可以是字符串、数组、对象、函数</span></span><br><span class="line">    devtool: <span class="string">""</span>,        <span class="comment">// 开发工具</span></span><br><span class="line">    output: &#123; &#125;,        <span class="comment">// 输出配置</span></span><br><span class="line">    <span class="built_in">module</span>: &#123; &#125;,        <span class="comment">// module 配置，处理不同资源</span></span><br><span class="line">    plugins: [ ],       <span class="comment">// plugin 配置</span></span><br><span class="line">    optimization: &#123; &#125;,  <span class="comment">// 资源优化配置项</span></span><br><span class="line">    devServer: &#123; &#125;      <span class="comment">// webpack-dev-server 服务配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="区分构建环境"><a href="#区分构建环境" class="headerlink" title="区分构建环境"></a>区分构建环境</h2><h4 id="分离多套环境"><a href="#分离多套环境" class="headerlink" title="分离多套环境"></a>分离多套环境</h4><p>单独配置，可以解决很多问题</p>
+<ol>
+<li>分离坏境：<br> dev（开发环境）、 prod（线上环境）、 staging（预发布环境）、 test（测试环境）</li>
+<li>多环境配置文件放在 build</li>
+<li>抽取 base 公共配置</li>
+<li>webpack-merge 合并配置</li>
+<li>全局环境参数通过 env.mode 传入</li>
+</ol>
+<h4 id="不同环境不同配置"><a href="#不同环境不同配置" class="headerlink" title="不同环境不同配置"></a>不同环境不同配置</h4><ul>
+<li>区分环境不同的 mode 构建模式</li>
+<li>区分环境不同的 output.filename</li>
+<li>定义全局环境变量：webpack/lib/DefinePlugin  实现逻辑层也能按环境区分</li>
+<li>区分环境配置不同的 CDN &amp;&amp; publicpath</li>
+</ul>
+<p><img src="/images/webpack/env1.png" alt=""><img src="/images/webpack/env2.png" alt=""><img src="/images/webpack/env3.png" alt=""></p>
+<h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><h4 id="使用-loader-配置更多资源："><a href="#使用-loader-配置更多资源：" class="headerlink" title="使用 loader 配置更多资源："></a>使用 loader 配置更多资源：</h4><ol>
+<li>url-loader 和 file-loader   ：前者内置后者，实现了图片的 base64 压缩以及资源大小限制、减少 http 请求</li>
+<li>postcss-loader 使用 postcss 生态，需要在预处理器前配置实用</li>
+<li>babel-loader  享受了最新的语法特性带来的技术红利</li>
+</ol>
+<h4 id="常用的-loader-总结："><a href="#常用的-loader-总结：" class="headerlink" title="常用的 loader 总结："></a>常用的 loader 总结：</h4><h5 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h5><ul>
+<li>raw-loader 加载文件原始内容（utf-8）</li>
+<li>val-loader 将代码作为模块执行，并将 exports 转为 JS 代码</li>
+<li>url-loader 像 file loader 一样工作，但如果文件小于限制，可以返回 data URL</li>
+<li>file-loader 将文件发送到输出文件夹，并返回（相对）URL</li>
+</ul>
+<h5 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h5><ul>
+<li>json-loader 加载 JSON 文件（默认包含）</li>
+<li>json5-loader 加载和转译 JSON 5 文件</li>
+<li>cson-loader 加载和转译 CSON 文件</li>
+</ul>
+<h5 id="转换编译-Transpiling"><a href="#转换编译-Transpiling" class="headerlink" title="转换编译(Transpiling)"></a>转换编译(Transpiling)</h5><ul>
+<li>script-loader 在全局上下文中执行一次 JavaScript 文件（如在 script 标签），不需要解析</li>
+<li>babel-loader 加载 ES2015+ 代码，然后使用 Babel 转译为 ES5</li>
+<li>buble-loader 使用 Bublé 加载 ES2015+ 代码，并且将代码转译为 ES5</li>
+<li>traceur-loader 加载 ES2015+ 代码，然后使用 Traceur 转译为 ES5</li>
+<li>ts-loader 或 awesome-typescript-loader 像 JavaScript 一样加载 TypeScript 2.0+</li>
+<li>coffee-loader 像 JavaScript 一样加载 CoffeeScript</li>
+<li>fengari-loader 使用 fengari 加载 Lua 代码</li>
+</ul>
+<h5 id="模板-Templating"><a href="#模板-Templating" class="headerlink" title="模板(Templating)"></a>模板(Templating)</h5><ul>
+<li>html-loader 导出 HTML 为字符串，需要引用静态资源</li>
+<li>pug-loader 加载 Pug 模板并返回一个函数</li>
+<li>jade-loader 加载 Jade 模板并返回一个函数</li>
+<li>markdown-loader 将 Markdown 转译为 HTML</li>
+<li>react-markdown-loader 使用 markdown-parse parser(解析器) 将 Markdown 编译为 React 组件</li>
+<li>posthtml-loader 使用 PostHTML 加载并转换 HTML 文件</li>
+<li>handlebars-loader 将 Handlebars 转移为 HTML</li>
+<li>markup-inline-loader 将内联的 SVG/MathML 文件转换为 HTML。在应用于图标字体，或将 CSS 动画应用于 SVG 时非常有用。</li>
+<li>twig-loader 编译 Twig 模板，然后返回一个函数</li>
+</ul>
+<h5 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h5><ul>
+<li>style-loader 将模块的导出作为样式添加到 DOM 中</li>
+<li>css-loader 解析 CSS 文件后，使用 import 加载，并且返回 CSS 代码</li>
+<li>less-loader 加载和转译 LESS 文件</li>
+<li>sass-loader 加载和转译 SASS/SCSS 文件</li>
+<li>postcss-loader 使用 PostCSS 加载和转译 CSS/SSS 文件</li>
+<li>stylus-loader 加载和转译 Stylus 文件</li>
+</ul>
+<h4 id="常用-loader-简单分类"><a href="#常用-loader-简单分类" class="headerlink" title="常用 loader 简单分类"></a>常用 loader 简单分类</h4><h5 id="1-Html-handlebars-Jade："><a href="#1-Html-handlebars-Jade：" class="headerlink" title="1. Html/handlebars/Jade："></a>1. Html/handlebars/Jade：</h5><p>html-loader、pug-loader、handlebars-loader</p>
+<h5 id="2-CSS-Stylus-SASS-LESS"><a href="#2-CSS-Stylus-SASS-LESS" class="headerlink" title="2. CSS/Stylus/SASS/LESS"></a>2. CSS/Stylus/SASS/LESS</h5><p>css-loader、sass-loader、less-loader、stylus-loder</p>
+<h5 id="3-ESM-AMD-CMD-COMMONJS"><a href="#3-ESM-AMD-CMD-COMMONJS" class="headerlink" title="3. ESM/AMD/CMD/COMMONJS"></a>3. ESM/AMD/CMD/COMMONJS</h5><p>babel-loader + presets / plugins</p>
+<h5 id="4-Images-IconFont-JSON"><a href="#4-Images-IconFont-JSON" class="headerlink" title="4. Images/IconFont/JSON"></a>4. Images/IconFont/JSON</h5><p>url-loader、json-loader</p>
+<h2 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h2><h4 id="常用的-plugin"><a href="#常用的-plugin" class="headerlink" title="常用的 plugin"></a>常用的 plugin</h4><ol>
+<li>copy-webpack-plugin  将不需要编译的静态资源复制到目标目录</li>
+<li>html-webpack-plugin   编译 html 模板</li>
+<li>clean-webpack-plugin   清空指定目标目录资源，例如 dist</li>
+<li>mini-css-extract-plugin  独立 css 资源，压缩。 extract-text-css-plugin  不兼容 4.x</li>
+<li>AggressiveSplittingPlugin    将原来的 chunk 分成更小的 chunk</li>
+<li>BabelMinifyWebpackPlugin    使用 babel-minify 进行压缩</li>
+<li>BannerPlugin    在每个生成的 chunk 顶部添加 banner</li>
+<li>CommonsChunkPlugin    提取 chunks 之间共享的通用模块</li>
+<li>CompressionWebpackPlugin    预先准备的资源压缩版本，使用 Content-Encoding 提供访问服务</li>
+<li>ContextReplacementPlugin    重写 require 表达式的推断上下文</li>
+<li>CopyWebpackPlugin    将单个文件或整个目录复制到构建目录</li>
+<li>DefinePlugin    允许在编译时(compile time)配置的全局常量</li>
+<li>DllPlugin    为了极大减少构建时间，进行分离打包</li>
+<li>EnvironmentPlugin    DefinePlugin 中 process.env 键的简写方式。</li>
+<li>ExtractTextWebpackPlugin    从 bundle 中提取文本（CSS）到单独的文件</li>
+<li>HotModuleReplacementPlugin    启用模块热替换(Enable Hot Module Replacement - HMR)</li>
+<li>HtmlWebpackPlugin    简单创建 HTML 文件，用于服务器访问</li>
+<li>I18nWebpackPlugin    为 bundle 增加国际化支持</li>
+<li>IgnorePlugin    从 bundle 中排除某些模块</li>
+<li>LimitChunkCountPlugin    设置 chunk 的最小/最大限制，以微调和控制 chunk</li>
+<li>LoaderOptionsPlugin    用于从 webpack 1 迁移到 webpack 2</li>
+<li>MinChunkSizePlugin    确保 chunk 大小超过指定限制</li>
+<li>MiniCssExtractPlugin    为每个引入 CSS 的 JS 文件创建一个 CSS 文件</li>
+<li>NoEmitOnErrorsPlugin    在输出阶段时，遇到编译错误跳过</li>
+<li>NormalModuleReplacementPlugin    替换与正则表达式匹配的资源</li>
+<li>NpmInstallWebpackPlugin    在开发时自动安装缺少的依赖</li>
+<li>ProvidePlugin    不必通过 import/require 使用模块</li>
+<li>SourceMapDevToolPlugin    对 source map 进行更细粒度的控制</li>
+<li>EvalSourceMapDevToolPlugin    对 eval source map 进行更细粒度的控制</li>
+</ol>
+<h2 id="优化基本开发体验"><a href="#优化基本开发体验" class="headerlink" title="优化基本开发体验"></a>优化基本开发体验</h2><h4 id="devtool-开发工具"><a href="#devtool-开发工具" class="headerlink" title="devtool 开发工具"></a>devtool 开发工具</h4><table>
+<thead>
+<tr>
+<th>#</th>
+<th>模式</th>
+<th>解释</th>
+<th>速度</th>
+<th>生产环境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>eval</td>
+<td>会将模块封装到 eval 里包裹起来执行，并且会在末尾追加注释 //@ sourceURL.</td>
+<td>最快</td>
+<td>不可以</td>
+</tr>
+<tr>
+<td>2</td>
+<td>source-map</td>
+<td>生成一个 SourceMap 文件.</td>
+<td>很慢</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>3</td>
+<td>hidden-source-map</td>
+<td>和 source-map 一样，但不会在 bundle 末尾追加注释.</td>
+<td>很慢</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>4</td>
+<td>inline-source-map</td>
+<td>生成一个 DataUrl 形式的 SourceMap 文件.</td>
+<td>很慢</td>
+<td>不可以</td>
+</tr>
+<tr>
+<td>5</td>
+<td>eval-source-map</td>
+<td>每个 module 会通过 eval() 来执行，并且生成一个 DataUrl 形式的 SourceMap .</td>
+<td>很慢</td>
+<td>不可以</td>
+</tr>
+<tr>
+<td>6</td>
+<td>cheap-source-map</td>
+<td>生成一个没有列信息（column-mappings）的 SourceMaps 文件，不包含 loader 的 sourcemap（譬如 babel 的 sourcemap）</td>
+<td>一般快</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>7</td>
+<td>cheap-module-source-map</td>
+<td>生成一个没有列信息（column-mappings）的 SourceMaps 文件，同时 loader 的 sourcemap 也被简化为只包含对应行的。</td>
+<td>较快</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>8</td>
+<td>cheap-module-eval-source-map</td>
+<td>类似 cheap-eval-source-map，并且，在这种情况下，源自 loader 的 source map 会得到更好的处理结果。</td>
+<td>较快</td>
+<td>不可以</td>
+</tr>
+</tbody>
+</table>
+<h4 id="proxy-代理"><a href="#proxy-代理" class="headerlink" title="proxy 代理"></a>proxy 代理</h4><p>结合 mock 平台实现 proxy 代理。<a href="https://mock.yonyoucloud.com/" target="_blank" rel="noopener">用友 mock 平台</a></p>
+<p>Proxy &amp;&amp; Mock</p>
+<ul>
+<li>Webpack-dev-server proxy 配置</li>
+<li>Node server based Koa / Express</li>
+<li>webpack-hot-moddleware</li>
+<li>Http-proxy-middleware</li>
+<li>Http-proxy(node-http-proxy)</li>
+</ul>
+<p>配置：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">            contentBase: path.resolve(__dirname, <span class="string">'../dist'</span>),</span><br><span class="line">            hot: <span class="literal">true</span>,</span><br><span class="line">            proxy: &#123;</span><br><span class="line">                <span class="string">"/corp"</span>: &#123;</span><br><span class="line">                    target: <span class="string">"https://mock.yonyoucloud.com/mock/548"</span>,</span><br><span class="line">                    secure: <span class="literal">false</span>,</span><br><span class="line">                    changeOrigin: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 代理服务器会在请求头中加入相应host header，然后目标服务器就可以根据这个 header 来区别要访问的站点</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="MHR-热更新"><a href="#MHR-热更新" class="headerlink" title="MHR 热更新"></a>MHR 热更新</h4><h5 id="热更新执行过程："><a href="#热更新执行过程：" class="headerlink" title="热更新执行过程："></a>热更新执行过程：</h5><p>模块更新, 更新的消息冒泡到 entry</p>
+<ol>
+<li>未捕获：webpack-dev-server 内置 live reload</li>
+<li>捕获：HotModuleReplacementPlugin ——&gt;  webpack de -server （通知更新） &lt;——&gt; （web sokcet 通信）浏览器</li>
+</ol>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><ol>
+<li>devServer设置hot: true</li>
+<li>New webpack.HotModuleReplacementPlugin() 插件设置</li>
+<li>入口判断：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">module</span>.hot) &#123;</span><br><span class="line">   <span class="built_in">module</span>.hot.accept()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="多端同步更新（移动、桌面、web端）"><a href="#多端同步更新（移动、桌面、web端）" class="headerlink" title="多端同步更新（移动、桌面、web端）"></a>多端同步更新（移动、桌面、web端）</h5><p>插件：<br>browser-sync-webpack-plugin</p>
+<p>配置：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BrowserSyncPlugin = <span class="built_in">require</span>(<span class="string">'browser-sync-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> BrowserSyncPlugin(&#123;</span><br><span class="line">      <span class="comment">// browse to http://localhost:3000/ during development,</span></span><br><span class="line">      <span class="comment">// ./public directory is being served</span></span><br><span class="line">      host: <span class="string">'localhost'</span>,</span><br><span class="line">      port: <span class="number">3000</span>,</span><br><span class="line">      server: &#123; <span class="attr">baseDir</span>: [<span class="string">'public'</span>] &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一直期待已久的整体系统的学习 webpack， 终于有机会了，现在将自己学习的笔记记录下来。。。</p>
+
+    </section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#webpack" >
+    <span class="tag-code">webpack</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/08/25/windows-常用快捷键总结/">
+        <span class="nav-arrow">← </span>
+        
+          windows 常用快捷键总结
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2018/09/25/typesSript（一）接口/">
+        
+          typesSript（一）接口
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <div>
+          
+            <div class="livere">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDAwNy8xNjUzNA==">
+            <script type="text/javascript">
+           (function(d, s) {
+               var j, e = d.getElementsByTagName(s)[0];
+    
+               if (typeof LivereTower === 'function') { return; }
+    
+               j = d.createElement(s);
+               j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+               j.async = true;
+    
+               e.parentNode.insertBefore(j, e);
+           })(document, 'script');
+            </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+    </div>
+            
+      </div>
+    
+
+   
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#webpack-是做什么的"><span class="toc-nav-text">webpack 是做什么的</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#基本原理"><span class="toc-nav-text">基本原理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-初始化"><span class="toc-nav-text">1. 初始化</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-编译"><span class="toc-nav-text">2. 编译</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-输出"><span class="toc-nav-text">3. 输出</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#核心概念"><span class="toc-nav-text">核心概念</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#区分构建环境"><span class="toc-nav-text">区分构建环境</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#分离多套环境"><span class="toc-nav-text">分离多套环境</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#不同环境不同配置"><span class="toc-nav-text">不同环境不同配置</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#loader"><span class="toc-nav-text">loader</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用-loader-配置更多资源："><span class="toc-nav-text">使用 loader 配置更多资源：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#常用的-loader-总结："><span class="toc-nav-text">常用的 loader 总结：</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#文件"><span class="toc-nav-text">文件</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#JSON"><span class="toc-nav-text">JSON</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#转换编译-Transpiling"><span class="toc-nav-text">转换编译(Transpiling)</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#模板-Templating"><span class="toc-nav-text">模板(Templating)</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#样式"><span class="toc-nav-text">样式</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#常用-loader-简单分类"><span class="toc-nav-text">常用 loader 简单分类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-Html-handlebars-Jade："><span class="toc-nav-text">1. Html/handlebars/Jade：</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#2-CSS-Stylus-SASS-LESS"><span class="toc-nav-text">2. CSS/Stylus/SASS/LESS</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#3-ESM-AMD-CMD-COMMONJS"><span class="toc-nav-text">3. ESM/AMD/CMD/COMMONJS</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#4-Images-IconFont-JSON"><span class="toc-nav-text">4. Images/IconFont/JSON</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#plugin"><span class="toc-nav-text">plugin</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#常用的-plugin"><span class="toc-nav-text">常用的 plugin</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#优化基本开发体验"><span class="toc-nav-text">优化基本开发体验</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#devtool-开发工具"><span class="toc-nav-text">devtool 开发工具</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#proxy-代理"><span class="toc-nav-text">proxy 代理</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#MHR-热更新"><span class="toc-nav-text">MHR 热更新</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#热更新执行过程："><span class="toc-nav-text">热更新执行过程：</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#配置"><span class="toc-nav-text">配置</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#多端同步更新（移动、桌面、web端）"><span class="toc-nav-text">多端同步更新（移动、桌面、web端）</span></a></li></ol></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/09/15/webpack-学习（一）/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "webpack 学习（一）",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

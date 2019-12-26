@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Eagle&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" type="image/ico" href="/css/images/favicon.ico"/> 
+  
+  <title>
+    
+      cookie、localStorage 和 sessionStorage | Eagle
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6e4a65843db95cb7ac9e31a22b2f4316";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Eagle</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>cookie、localStorage 和 sessionStorage</h2>
+  <p class="post-date">2018-06-23</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content">
+      <h3 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h3><p>cookie 非常小，它的大小限制为4KB左右，它的主要用途有保存登录信息。比如“记住密码”，这通常就是通过在 Cookie 中存入一段辨别用户身份的数据来实现的。</p>
+<p>一般而言，cookies 会由服务端发送给客户端，客户端存储下来，然后在随后让请求中再发回给服务端。这可以用于诸如管理用户会话，追踪用户信息等事情。此外，客户端也用使用 cookies 存储数据。因而，cookies 常被用于存储一些通用的数据，如用户的首选项设置。</p>
+<h4 id="优缺点："><a href="#优缺点：" class="headerlink" title="优缺点："></a>优缺点：</h4><p>优点：</p>
+<ul>
+<li>能用于和服务端通信</li>
+<li>当 cookie 快要自动过期时，我们可以重新设置而不是删除</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>增加了文档传输的负载</li>
+<li>只能存储少量的数据</li>
+<li>只能存储字符串</li>
+<li>潜在的 安全问题</li>
+<li>自从有 Web Storage API (Local and Session Storage)，cookies 就不再被推荐用于存储数据了</li>
+</ul>
+<h4 id="cookie-的基本操作"><a href="#cookie-的基本操作" class="headerlink" title="cookie 的基本操作"></a>cookie 的基本操作</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"user_name=eagleli"</span>;  </span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"user_age=25;max-age=31536000;secure"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Read (All)</span></span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">document</span>.cookie );</span><br><span class="line"></span><br><span class="line"><span class="comment">// Update</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"user_age=24;max-age=31536000;secure"</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// Delete</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"user_name=eagleli;expires=Thu, 01 Jan 2018 00:00:01 GMT"</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="LocalStorage"><a href="#LocalStorage" class="headerlink" title="LocalStorage"></a>LocalStorage</h3><p>localStorage 是 HTML5 标准中新加入的技术。在 IE 6 时代有一个常用的 userData 用作本地存储，当时为了考虑兼容性，使用更多的是 Flash。现在 localStorage 被大多数浏览器支持。</p>
+<p>localStorage的优势</p>
+<ol>
+<li><p>localStorage 拓展了cookie 的 4K 限制</p>
+</li>
+<li><p>localStorage 会可以将第一次请求的数据直接存储到本地，这个相当于一个 5M 大小的针对于前端页面的数据库，相比于cookie可以节约带宽，但是这个却是只有在高版本的浏览器中才支持的</p>
+</li>
+</ol>
+<p>localStorage的局限</p>
+<ol>
+<li><p>浏览器的大小不统一，并且在IE8以上的IE版本才支持localStorage这个属性</p>
+</li>
+<li><p>目前所有的浏览器中都会把localStorage的值类型限定为string类型，这个在对我们日常比较常见的JSON对象类型需要一些转换</p>
+</li>
+<li><p>localStorage在浏览器的隐私模式下面是不可读取的</p>
+</li>
+<li><p>localStorage本质上是对字符串的读取，如果存储内容多的话会消耗内存空间，会导致页面变卡</p>
+</li>
+<li><p>localStorage不能被爬虫抓取到</p>
+</li>
+</ol>
+<h3 id="SessionStorage"><a href="#SessionStorage" class="headerlink" title="SessionStorage"></a>SessionStorage</h3><p>sessionStorage 与 localStorage 的接口类似，但保存数据的生命周期与 localStorage 不同。它只是可以将一部分数据在当前会话中保存下来，刷新页面数据依旧存在。但当页面关闭后，sessionStorage 中的数据就会被清空。</p>
+<h3 id="三者的异同"><a href="#三者的异同" class="headerlink" title="三者的异同"></a>三者的异同</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Cookie</th>
+<th>localStorage</th>
+<th>sessionStorage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据的生命期</td>
+<td>一般由服务器生成，可设置失效时间。如果在浏览器端生成Cookie，默认是关闭浏览器后失效</td>
+<td>除非被清除，否则永久保存</td>
+<td>仅在当前会话下有效，关闭页面或浏览器后被清除</td>
+</tr>
+<tr>
+<td>存放数据大小</td>
+<td>4K左右</td>
+<td>一般为5MB</td>
+<td>一般为5MB</td>
+</tr>
+<tr>
+<td>与服务器端通信</td>
+<td>每次都会携带在HTTP头中，如果使用cookie保存过多数据会带来性能问题</td>
+<td>仅在客户端（即浏览器）中保存，不参与和服务器的通信</td>
+</tr>
+<tr>
+<td>易用性</td>
+<td>需要程序员自己封装，源生的Cookie接口不友好</td>
+<td>源生接口可以接受，亦可再次封装来对Object和Array有更好的支持</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="1-在使用-localStorage-或者-sessionStorage-之前需要对浏览器的是否支持进行判断，如下："><a href="#1-在使用-localStorage-或者-sessionStorage-之前需要对浏览器的是否支持进行判断，如下：" class="headerlink" title="1. 在使用 localStorage 或者 sessionStorage 之前需要对浏览器的是否支持进行判断，如下："></a>1. 在使用 localStorage 或者 sessionStorage 之前需要对浏览器的是否支持进行判断，如下：</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">window</span>.localStorage)&#123;</span><br><span class="line">    alert(<span class="string">"浏览支持localStorage"</span>)</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">   alert(<span class="string">"浏览暂不支持localStorage"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="built_in">window</span>.localStorage == <span class="string">'undefined'</span>)&#123;</span><br><span class="line">    alert(<span class="string">"浏览暂不支持localStorage"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-setItem-存储数据-value（将value存储到key字段）"><a href="#2-setItem-存储数据-value（将value存储到key字段）" class="headerlink" title="2. setItem 存储数据 value（将value存储到key字段）"></a>2. setItem 存储数据 value（将value存储到key字段）</h4><p>localStorage 只支持 string 类型的存储。</p>
+<p>这里要特别说明一下localStorage的使用也是遵循同源策略的，所以不同的网站直接是不能共用相同的localStorage</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 在浏览器支持 localStorage 和 sessionStorage 的条件下 --&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> storage=<span class="built_in">window</span>.localStorage;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存储数据方法一</span></span><br><span class="line">storage[<span class="string">"a"</span>]=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存储数据方法二</span></span><br><span class="line">storage.a=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存储数据方法三（官方支持）</span></span><br><span class="line">localStorage.setItem(<span class="string">"site"</span>, <span class="string">"js8.in"</span>);</span><br><span class="line"></span><br><span class="line">sessionStorage.setItem(<span class="string">"key"</span>, <span class="string">"value"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> storage[<span class="string">"a"</span>]);  <span class="comment">// 输出：string，原本存入的值是 int 类型，输出的是 string</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> storage[<span class="string">"b"</span>]);  <span class="comment">// 输出：string</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> storage[<span class="string">"c"</span>]);  <span class="comment">// 输出：string</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-getItem-获取-value（获取指定key本地存储的值）"><a href="#3-getItem-获取-value（获取指定key本地存储的值）" class="headerlink" title="3. getItem 获取 value（获取指定key本地存储的值）"></a>3. getItem 获取 value（获取指定key本地存储的值）</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> value = sessionStorage.getItem(<span class="string">"key"</span>);</span><br><span class="line"><span class="keyword">const</span> site = localStorage.getItem(<span class="string">"site"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="4-removeItem-删除-key（删除指定key本地存储的值）"><a href="#4-removeItem-删除-key（删除指定key本地存储的值）" class="headerlink" title="4. removeItem 删除 key（删除指定key本地存储的值）"></a>4. removeItem 删除 key（删除指定key本地存储的值）</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage.removeItem(<span class="string">"key"</span>);</span><br><span class="line">localStorage.removeItem(<span class="string">"site"</span>);</span><br></pre></td></tr></table></figure>
+<p>clear 清除所有的 key/value</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionStorage.clear();</span><br><span class="line">localStorage.clear();</span><br></pre></td></tr></table></figure>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://github.com/dwqs/blog/issues/42" target="_blank" rel="noopener">https://github.com/dwqs/blog/issues/42</a></p>
+
+    </section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#html" >
+    <span class="tag-code">html</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/06/22/let-vs-var/">
+        <span class="nav-arrow">← </span>
+        
+          let、var、const
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2018/06/28/BOM-DOM/">
+        
+          BOM-DOM
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <div>
+          
+            <div class="livere">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDAwNy8xNjUzNA==">
+            <script type="text/javascript">
+           (function(d, s) {
+               var j, e = d.getElementsByTagName(s)[0];
+    
+               if (typeof LivereTower === 'function') { return; }
+    
+               j = d.createElement(s);
+               j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+               j.async = true;
+    
+               e.parentNode.insertBefore(j, e);
+           })(document, 'script');
+            </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+    </div>
+            
+      </div>
+    
+
+   
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Cookie"><span class="toc-nav-text">Cookie</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#优缺点："><span class="toc-nav-text">优缺点：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#cookie-的基本操作"><span class="toc-nav-text">cookie 的基本操作</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#LocalStorage"><span class="toc-nav-text">LocalStorage</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SessionStorage"><span class="toc-nav-text">SessionStorage</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三者的异同"><span class="toc-nav-text">三者的异同</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#使用"><span class="toc-nav-text">使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#1-在使用-localStorage-或者-sessionStorage-之前需要对浏览器的是否支持进行判断，如下："><span class="toc-nav-text">1. 在使用 localStorage 或者 sessionStorage 之前需要对浏览器的是否支持进行判断，如下：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-setItem-存储数据-value（将value存储到key字段）"><span class="toc-nav-text">2. setItem 存储数据 value（将value存储到key字段）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-getItem-获取-value（获取指定key本地存储的值）"><span class="toc-nav-text">3. getItem 获取 value（获取指定key本地存储的值）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#4-removeItem-删除-key（删除指定key本地存储的值）"><span class="toc-nav-text">4. removeItem 删除 key（删除指定key本地存储的值）</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#参考链接"><span class="toc-nav-text">参考链接</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/06/23/localStorage-sessionStorage/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "cookie、localStorage 和 sessionStorage",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

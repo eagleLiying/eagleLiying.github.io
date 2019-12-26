@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Eagle&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" type="image/ico" href="/css/images/favicon.ico"/> 
+  
+  <title>
+    
+      Array 遍历的方法总结 | Eagle
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6e4a65843db95cb7ac9e31a22b2f4316";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>Eagle</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Array 遍历的方法总结</h2>
+  <p class="post-date">2019-01-09</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content">
+      <h2 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通用法</span></span><br><span class="line"><span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; array.length; j++) &#123;</span><br><span class="line">  <span class="comment">//  TODO...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化写法1</span></span><br><span class="line"><span class="keyword">for</span> (j = <span class="number">0</span>, length = array.length; j &lt; length; j++) &#123;</span><br><span class="line">  <span class="comment">//  TODO...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化写法2</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = array.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">  <span class="comment">//  TODO...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优化小点：使用临时变量，将长度缓存起来，避免重复获取数组长度，当数组较大时优化效果才会比较明显。</p>
+<p>常见问题：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> array = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  array.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">array[<span class="number">0</span>](); <span class="comment">// 10</span></span><br><span class="line">array[<span class="number">1</span>](); <span class="comment">// 10</span></span><br><span class="line">array[<span class="number">2</span>](); <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化 将 var 改为 let</span></span><br><span class="line"><span class="keyword">const</span> array = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  array.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">array[<span class="number">0</span>](); <span class="comment">// 10</span></span><br><span class="line">array[<span class="number">1</span>](); <span class="comment">// 10</span></span><br><span class="line">array[<span class="number">2</span>](); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+<p>原因：</p>
+<ol>
+<li>var 没有作用域指定, 所以在 for 循环中使用 var 声明的变量是全局变量，而使用 let 声明的变量是仅仅在 for 循环这个块作用域中的。</li>
+<li>for 循环中的匿名函数只是声明了，并没有在当时调用，随后调用的时候已经全局变量 i 已经被修改为 10 了。</li>
+</ol>
+<h2 id="Array-foreach"><a href="#Array-foreach" class="headerlink" title="Array.foreach"></a>Array.foreach</h2><p>用法:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array.forEach((currentValue, index, array) = &#123;</span><br><span class="line"> <span class="comment">// TODO....</span></span><br><span class="line">&#125;, thisValue)</span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>不修改原数组；</li>
+<li>没有返回值；</li>
+<li>不支持 ie 浏览器</li>
+</ol>
+<h2 id="Array-map"><a href="#Array-map" class="headerlink" title="Array.map"></a>Array.map</h2><p>用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array.map((currentValue, index, array) = &#123;</span><br><span class="line"> <span class="comment">// TODO....</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>有返回值；</li>
+<li>对原数组没有影响；</li>
+<li>不支持 IE 浏览器</li>
+</ol>
+<h2 id="Array-some"><a href="#Array-some" class="headerlink" title="Array.some"></a>Array.some</h2><p>用法：用于检测数组中的元素是否满足指定条件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">array.some(<span class="function"><span class="keyword">function</span>(<span class="params">currentValue,index,arr</span>),<span class="title">thisValue</span>)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">eg</span>:</span></span><br><span class="line">const ages = [3, 10, 18, 20];</span><br><span class="line"></span><br><span class="line">ages.some(<span class="function">(<span class="params">age</span>) =&gt;</span> age &gt; <span class="number">4</span>); <span class="comment">// true</span></span><br><span class="line">ages.some(<span class="function">(<span class="params">age</span>) =&gt;</span> age &lt; <span class="number">2</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>返回值为布尔值。如果数组中有元素满足条件返回 true；否则返回 false，剩余的元素不会再执行检测。</li>
+<li>some() 不会对空数组进行检测；</li>
+<li>some() 不会改变原始数据；</li>
+<li>兼容 IE9 以上，包括 IE9；</li>
+<li>javascript 版本 1.6</li>
+</ol>
+<h2 id="Array-filter"><a href="#Array-filter" class="headerlink" title="Array.filter"></a>Array.filter</h2><p>用法：创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">array.filter(<span class="function"><span class="keyword">function</span>(<span class="params">currentValue,index,arr</span>), <span class="title">thisValue</span>);</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">eg</span>:</span></span><br><span class="line">const ages = [32, 33, 16, 40];</span><br><span class="line"><span class="keyword">const</span> bigAges = ages.filter(<span class="function">(<span class="params">age</span>) =&gt;</span> age &gt; <span class="number">30</span>) <span class="comment">// [32, 33, 40]</span></span><br><span class="line"><span class="keyword">const</span> minAges = ages.filter(<span class="function">(<span class="params">age</span>) =&gt;</span> age &lt; <span class="number">30</span>) <span class="comment">// [16]</span></span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>filter() 不会对空数组进行检测</li>
+<li>filter() 不会改变原始数据</li>
+<li>兼容 IE9 以上，包括 IE9</li>
+<li>返回数组，包含了符合条件的所有元素。如果没有符合条件的元素则返回空数组。</li>
+<li>javascript 版本 1.6</li>
+</ol>
+<h2 id="Array-find"><a href="#Array-find" class="headerlink" title="Array.find"></a>Array.find</h2><p>用法：查找符合条件的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array.find(<span class="function"><span class="keyword">function</span>(<span class="params">currentValue, index, arr</span>),<span class="title">thisValue</span>)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">eg</span>:</span></span><br><span class="line">const ages = [3, 10, 18, 20];</span><br><span class="line">ages.find(<span class="function">(<span class="params">age</span>) =&gt;</span> age &gt;= <span class="number">18</span>) <span class="comment">// 返回 18</span></span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>返回值为通过测试的第一个值；</li>
+<li>当 find 回调函数返回的 true 时，之后的元素将不会再执行函数；</li>
+<li>如果没有符合条件的元素返回 undefined ；</li>
+<li>不会执行空数组</li>
+<li>不会改变原数组</li>
+<li>不兼容 IE</li>
+</ol>
+<h2 id="Array-reduce"><a href="#Array-reduce" class="headerlink" title="Array.reduce"></a>Array.reduce</h2><p>用法：累加器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数说明：</span></span><br><span class="line"><span class="comment">// 1. total 为上一次执行返回的结果</span></span><br><span class="line"><span class="comment">// 2. currentValue 当前循环的值</span></span><br><span class="line"><span class="comment">// 3. currentIndex 当前循环的索引值</span></span><br><span class="line"><span class="comment">// 4. arr 当前的原数组</span></span><br><span class="line"><span class="comment">// 5. initialValue 初始返回值</span></span><br><span class="line">array.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">total, currentValue, currentIndex, arr</span>), <span class="title">initialValue</span>)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">eg</span>:</span></span><br><span class="line">const numbers = [65, 44, 12, 4];</span><br><span class="line"><span class="keyword">const</span> sum = numbers.reduce(<span class="function">(<span class="params">total, num</span>) =&gt;</span> total + num, <span class="number">0</span>); <span class="comment">// 125</span></span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>返回计算结果</li>
+<li>JavaScript 版本为 ECMAScript 3</li>
+<li>不执行空数组</li>
+<li>不兼容 IE</li>
+</ol>
+<h2 id="Array-includes"><a href="#Array-includes" class="headerlink" title="Array.includes"></a>Array.includes</h2><p>定义：判断数组是否包含一个指定的值，如果包含返回 true, 否则返回 false<br>用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// searchElement 需要查找的元素值</span></span><br><span class="line"><span class="comment">// formIndex 要开始搜查的索引，如果为负值从 array.length + fromIndex 的索引开始搜索，默认为 0</span></span><br><span class="line">arr</span><br><span class="line">  .includes(searchElement, fromIndex)</span><br><span class="line"></span><br><span class="line">  [</span><br><span class="line">    <span class="comment">// eg:</span></span><br><span class="line">    (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">  ].includes(<span class="number">2</span>); <span class="comment">// true</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">4</span>); <span class="comment">// false</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">3</span>, <span class="number">3</span>); <span class="comment">// false</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">3</span>, <span class="number">-1</span>); <span class="comment">// true</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="literal">NaN</span>].includes(<span class="literal">NaN</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>特点：</p>
+<ol>
+<li>返回值为布尔值</li>
+<li>JavaScript 版本为 ECMAScript 6</li>
+<li>不兼容 IE</li>
+</ol>
+<p>以上只是总结了常用又经常搞混的数组方法，如果想要更全面的数组方法请参考：<a href="http://www.runoob.com/jsref/jsref-obj-array.html" target="_blank" rel="noopener">菜鸟教程-Array</a></p>
+
+    </section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#js" >
+    <span class="tag-code">js</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/11/06/npm 安装包管理/">
+        <span class="nav-arrow">← </span>
+        
+          npm 安装包管理
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/2019/01/17/vue-初探（一）/">
+        
+          vue 初探（一）——— 安装篇
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <div>
+          
+            <div class="livere">
+        <!-- 来必力City版安装代码 -->
+        <div id="lv-container" data-id="city" data-uid="MTAyMC80MDAwNy8xNjUzNA==">
+            <script type="text/javascript">
+           (function(d, s) {
+               var j, e = d.getElementsByTagName(s)[0];
+    
+               if (typeof LivereTower === 'function') { return; }
+    
+               j = d.createElement(s);
+               j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+               j.async = true;
+    
+               e.parentNode.insertBefore(j, e);
+           })(document, 'script');
+            </script>
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+        </div>
+        <!-- City版安装代码已完成 -->
+    </div>
+            
+      </div>
+    
+
+   
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#for-循环"><span class="toc-nav-text">for 循环</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-foreach"><span class="toc-nav-text">Array.foreach</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-map"><span class="toc-nav-text">Array.map</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-some"><span class="toc-nav-text">Array.some</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-filter"><span class="toc-nav-text">Array.filter</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-find"><span class="toc-nav-text">Array.find</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-reduce"><span class="toc-nav-text">Array.reduce</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-includes"><span class="toc-nav-text">Array.includes</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2019/01/09/Array-遍历的方法总结/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "Array 遍历的方法总结",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
